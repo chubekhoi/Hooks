@@ -37,9 +37,18 @@ function HookUseState({children}) {
     const [item,setItem] = useState('chưa có phần thưởng')
 
     const [name,setName]=useState('')
+
     const [email,setEmail]=useState('')
+
     const [check,setCheck]=useState(1)
+
     const [checkBox,setCheckBox]=useState([])
+  
+
+    const [jobs,setJobs]= useState(JSON.parse(localStorage.getItem('jobs')) ? JSON.parse(localStorage.getItem('jobs')) : [])
+    const [job,setJob]= useState('')
+
+
 
 
     const handelClickIcrease =function () {
@@ -67,12 +76,15 @@ function HookUseState({children}) {
     const handelImportName = function (e) {
         setName(e.target.value);
     }
+
     const handelSetName = function (e) {
         setName('nguyen van bbb')
     }
+
     const handelImporEmail = function (e) {
         setEmail(e.target.value)
     }
+
     const handelSubmit = function () {
         console.log({
             name,
@@ -80,8 +92,8 @@ function HookUseState({children}) {
         });
     }
     const handelCheckRadio = function (course) {
-        console.log(checkBox);
-        setCheckBox(course.id)
+    
+        setCheck(course.id)
     }
 
     const handelSubmitCheck = function () {
@@ -111,6 +123,38 @@ function HookUseState({children}) {
             id:check
         })
     }
+
+
+    const handelImporJob = function (e) {
+        console.log((e.target.value));
+        setJob(e.target.value)
+    }
+    const handelAddJob  = function (e) {
+
+        setJobs(function (pre) {
+            if (job === '') {
+                return([...pre])
+            }else{
+                const newJobs =  [...pre,job];
+                const jsonJobs = JSON.stringify(newJobs)
+                localStorage.setItem('jobs',jsonJobs)
+                return(newJobs)
+            }
+         
+        })
+        setJob('')
+    }
+    const handelRemoveJob  = function (indexJobs) {
+        setJobs(function (preJobs) {
+            const updateJobs = preJobs.filter(function (prejob,index) {
+                return (index !== indexJobs)
+            })
+            localStorage.setItem('jobs' , JSON.stringify(updateJobs))
+            return updateJobs
+        })
+        
+    }
+
 
     return(
 
@@ -146,8 +190,10 @@ function HookUseState({children}) {
                <h1>====================================================</h1>
             </div>
             <div style={{padding: 40}}>
-               <input onChange={handelImportName} placeholder='Name'></input>
+               <input onChange={handelImportName} placeholder='Name' value={name}></input>
+
                <input onChange={handelImporEmail} placeholder='Email'></input>
+
                <button onClick={handelSubmit}>Register</button>
             </div>
             <div style={{padding: 40}}>
@@ -167,6 +213,7 @@ function HookUseState({children}) {
                <button onClick={handelSubmitCheck}>change me</button>
                <h1>====================================================</h1>
             </div> 
+
             <div style={{padding: 40}}>
             {courses.map(function (course) {
                 return(
@@ -185,6 +232,21 @@ function HookUseState({children}) {
                <h1>====================================================</h1>
             </div>
 
+            <div style={{padding: 40}}>
+               <input  placeholder='add job' value={job} onChange={handelImporJob}></input>
+               <button onClick={handelAddJob}>add</button>
+               <ul>
+                {jobs.map(function (job,index) {
+                    return(<div  key={index}>
+                        <li>{job}</li>
+                    <button onClick={function () {
+                        handelRemoveJob(index)
+                    }}>remove</button>
+                    </div>)
+                })}
+               </ul>
+
+            </div>
 
          </div>
     )
