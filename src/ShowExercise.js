@@ -1,23 +1,35 @@
-import  {useState} from 'react'
+import  {useEffect, useState} from 'react'
 import  HookUseState  from "./useState.js";
-
-function ShowExerciseUseState({children}) {
+import  HookUseEffect  from "./useEffect.js";
+const listCourses = ['showUseState','showUseEffect','testNew']
+function ShowExerciseUseState({}) {
     const [nameShow,setNameShow] = useState('showUseState')
+    const [idCourse,setIdCourse] = useState(0)
     const [show,setShow] = useState(false)
-    const handleShow = function () {
-        if (!show) {
-            setNameShow('unshow')
-        }else{
-            setNameShow('showUseState')
 
-        }
-        setShow(!show)
+    const [TabName,setTabName] =  useState()
+
+    const handleShow = function ( id) {
+        console.log(id);
+        setIdCourse(id)
+            
+    } 
+    const handelShowTabName = function () {
+       
+        
     }
+    
     return(
         <div>
-            <button onClick={handleShow}>{nameShow}</button>
-            {show ? <HookUseState></HookUseState> : null}
+            {listCourses.map(function (listCourse,index) {
+                return(<button onClick={function () {
+                    handleShow(index)
+                }}>{listCourse}</button>)
+            })}
             
+            <div className='tabName'>
+            {idCourse == 0 ? <HookUseEffect/> : idCourse == 1 ? <HookUseState/>: idCourse == 2 ? <div>xin chao</div> : {} }
+            </div>
         </div>
     )
 }

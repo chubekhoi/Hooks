@@ -12,7 +12,7 @@ function App() {
     <div style={{padding : 50}}>
         <div>
             <button onClick={handleShow}>toggel</button>
-            {show ? <HookUseEffect></HookUseEffect> : null}
+            {show ? <ShowExerciseUseState></ShowExerciseUseState> : null}
         </div>
     </div>
 
