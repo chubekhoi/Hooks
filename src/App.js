@@ -1,6 +1,6 @@
 import  {useState} from 'react'
-import HookUseRef from './useRef.js';
-import HookUseEffect from './useRef.js';
+
+import  HookUseReducer  from "./useReducer.js";
 import ShowExerciseUseState  from "./ShowExercise.js";
 function App() {
   const [show,setShow] = useState(false)
@@ -12,7 +12,7 @@ function App() {
     <div style={{padding : 50}}>
         <div>
             <button onClick={handleShow}>toggel</button>
-            {show ? <ShowExerciseUseState><HookUseRef></HookUseRef></ShowExerciseUseState> : null}
+            {show ? <HookUseReducer></HookUseReducer> : null}
         </div>
     </div>
 
